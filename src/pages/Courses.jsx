@@ -167,10 +167,10 @@ function Courses() {
         <div className="content-container section-padding relative z-10">
           {/* Premium Glassy Tabs in Card */}
           <div className="flex justify-center mb-12">
-            <div className="relative flex rounded-full bg-white/80 backdrop-blur-xl border border-blue-100 shadow-xl p-2 gap-2 max-w-xl w-full mx-auto">
+            <div className="relative flex justify-center mx-auto rounded-full bg-white/80 backdrop-blur-xl border border-blue-100 shadow-xl p-2 gap-2 max-w-xl w-full">
               <button
                 onClick={() => setActiveTab('diplomas')}
-                className={`relative px-10 py-4 rounded-full font-semibold text-lg transition-all duration-300 focus:outline-none
+                className={`relative px-3 py-1.5 text-sm rounded-xl md:px-10 md:py-4 md:text-lg md:rounded-full font-semibold transition-all duration-300 focus:outline-none
                   ${activeTab === 'diplomas'
                     ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
                     : 'bg-white/60 border border-blue-100 text-blue-700 hover:bg-blue-100/60 hover:shadow'}
@@ -188,7 +188,7 @@ function Courses() {
               </button>
               <button
                 onClick={() => setActiveTab('degree')}
-                className={`relative px-10 py-4 rounded-full font-semibold text-lg transition-all duration-300 focus:outline-none
+                className={`relative px-3 py-1.5 text-sm rounded-xl md:px-10 md:py-4 md:text-lg md:rounded-full font-semibold transition-all duration-300 focus:outline-none
                   ${activeTab === 'degree'
                     ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
                     : 'bg-white/60 border border-blue-100 text-blue-700 hover:bg-blue-100/60 hover:shadow'}

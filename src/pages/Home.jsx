@@ -13,77 +13,269 @@ import {
   SparklesIcon,
   StarIcon,
 } from '@heroicons/react/24/outline';
+import heroImg from '../assets/illustrations/hero.png';
+import { useState, useEffect, useRef } from 'react';
 
 function Home() {
+  // Parallax state for bubbles
+  const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
+  // Confetti state and helpers
+  const [confetti, setConfetti] = useState([]);
+  const confettiId = useRef(0);
+  const confettiColors = [
+    '#60a5fa', // blue
+    '#a78bfa', // purple
+    '#34d399', // green
+    '#fbbf24', // yellow
+    '#f472b6', // pink
+    '#f87171', // red
+  ];
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      // Only apply on desktop
+      if (window.innerWidth < 768) return;
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      setMouse({ x, y });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  useEffect(() => {
+    if (confetti.length > 0) {
+      const timeout = setTimeout(() => setConfetti([]), 1200);
+      return () => clearTimeout(timeout);
+    }
+  }, [confetti]);
+
   return (
     <div className="w-full min-h-screen overflow-hidden">
-      {/* Hero Section with Smooth Transition */}
-      <section className="relative min-h-screen flex flex-col md:flex-row overflow-hidden">
-        {/* Background with Goa training dummy image on right, with smooth transition */}
-        <div className="absolute inset-0">
-          <div className="w-full h-full flex">
-            <div className="w-1/2 h-full bg-white"></div>
-            <div className="w-1/2 h-full bg-cover bg-center relative" style={{backgroundImage: "url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80')"}}>
-              {/* Gradient overlay for smooth transition */}
-              <div className="absolute left-0 top-0 h-full w-1/2" style={{background: 'linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%)'}}></div>
-              {/* Attracting text overlay */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-                <h2 className="text-3xl md:text-4xl font-extrabold text-white drop-shadow-lg mb-3 bg-black/30 rounded-xl px-4 py-2 inline-block">Train Where the World Vacations</h2>
-                <p className="text-lg md:text-xl font-medium text-white drop-shadow bg-black/20 rounded-lg px-3 py-2 inline-block">Exclusive Logistics Training Experience in Goa</p>
-              </div>
+      {/* Hero Section: Placement Guarantee + Custom Illustration */}
+      <section className="relative min-h-screen flex items-center justify-center bg-white overflow-hidden">
+        {/* Angled Blue Accent Bar (Geometric Shape) */}
+        <div className="absolute left-0 top-[-80px] w-[160vw] h-64 md:h-80 rotate-[-8deg] bg-gradient-to-r from-blue-500/20 via-blue-400/10 to-transparent z-0" style={{ pointerEvents: 'none' }} />
+        {/* Extra Geometric Shapes */}
+        <svg className="absolute left-[-60px] bottom-[-60px] w-64 h-64 z-0" style={{ pointerEvents: 'none' }} viewBox="0 0 256 256" fill="none">
+          <polygon points="0,256 256,256 0,0" fill="#a78bfa22" />
+        </svg>
+        <div className="absolute right-[-40px] top-[-40px] w-40 h-40 rounded-full bg-green-200/20 z-0" style={{ pointerEvents: 'none' }} />
+        <svg className="absolute right-[-50px] bottom-[-30px] w-32 h-32 z-0" style={{ pointerEvents: 'none' }} viewBox="0 0 100 100" fill="none">
+          <polygon points="20,80 80,100 100,20 60,0" fill="#fde68a33" />
+        </svg>
+        {/* Animated Floating Career Icons */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+          {/* Floating Icons */}
+          <BriefcaseIcon className="floating-icon text-blue-400/30" style={{ left: '18%', top: '32%', width: 44, height: 44, position: 'absolute' }} />
+          <ChartBarIcon className="floating-icon text-purple-400/30" style={{ left: '65%', top: '18%', width: 38, height: 38, position: 'absolute' }} />
+          <AcademicCapIcon className="floating-icon text-green-400/30" style={{ left: '75%', top: '65%', width: 48, height: 48, position: 'absolute' }} />
+          <StarIcon className="floating-icon text-yellow-400/30" style={{ left: '32%', top: '75%', width: 36, height: 36, position: 'absolute' }} />
+          {/* Bubbles */}
+          {[
+            { class: "bg-blue-100 opacity-30", left: '8%', top: '18%', w: 60, h: 60, px: 30, py: 20 },
+            { class: "bg-gray-200 opacity-25", left: '72%', top: '22%', w: 90, h: 90, px: -40, py: 10 },
+            { class: "bg-purple-200 opacity-20", left: '48%', top: '68%', w: 50, h: 50, px: 20, py: -30 },
+            { class: "bg-blue-200 opacity-20", left: '82%', top: '62%', w: 70, h: 70, px: -25, py: 25 },
+            { class: "bg-gray-300 opacity-20", left: '28%', top: '78%', w: 55, h: 55, px: 35, py: -20 },
+            { class: "bg-blue-200 opacity-15", left: '60%', top: '40%', w: 40, h: 40, px: -15, py: 15 },
+            { class: "bg-purple-100 opacity-20", left: '20%', top: '60%', w: 80, h: 80, px: 10, py: -35 },
+            { class: "bg-gray-100 opacity-20", left: '40%', top: '30%', w: 65, h: 65, px: -20, py: 20 },
+          ].map((b, i) => (
+            <div
+              key={i}
+              className={`bubble ${b.class}`}
+              style={{
+                left: b.left,
+                top: b.top,
+                width: b.w,
+                height: b.h,
+                transform: `translate3d(${(window.innerWidth >= 768 ? (mouse.x - 0.5) * b.px : 0)}px, ${(window.innerWidth >= 768 ? (mouse.y - 0.5) * b.py : 0)}px, 0)`
+              }}
+            />
+          ))}
+        </div>
+        <div className="relative z-10 flex flex-col-reverse md:flex-row items-center justify-center w-full px-4 py-12 md:py-24 max-w-6xl mx-auto gap-8 md:gap-0">
+          {/* Left: Professional Placement Guarantee and Caption */}
+          <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left justify-center">
+            <div className="px-4 py-8 md:px-10 md:py-14 flex flex-col items-center md:items-start max-w-2xl w-full">
+              <motion.h1
+                className="text-3xl md:text-5xl font-extrabold mb-4 leading-tight"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.1 }}
+              >
+                <span className="bg-gradient-to-r from-blue-600 via-green-500 to-purple-600 bg-clip-text text-transparent animate-gradient-x">
+                  Your Career, Secured.
+                </span>
+              </motion.h1>
+              <motion.h2
+                className="text-xl md:text-2xl font-semibold text-blue-700 mb-3 flex items-center gap-2"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.3 }}
+              >
+                <span className="animate-bounce">
+                  <svg className="w-6 h-6 text-green-500 inline" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+                </span>
+                <span className="shimmer-glow">100% Placement Guarantee</span>
+              </motion.h2>
+              <motion.p
+                className="text-base md:text-lg text-gray-700 font-medium mb-8 max-w-xl animate-fade-in"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.5 }}
+              >
+                Ivanios College partners with top global recruiters to ensure every graduate receives a placement offer.<br />
+                <span className="text-blue-600 font-semibold">Our commitment: your future, guaranteed.</span>
+              </motion.p>
+              <motion.a
+                href="#courses"
+                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-full text-base md:text-lg shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-blue-600 mb-4 transform hover:-translate-y-1 relative overflow-visible"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.7 }}
+                onClick={e => {
+                  setConfetti(
+                    Array.from({ length: 18 }).map((_, i) => ({
+                      id: confettiId.current++,
+                      angle: (i / 18) * 2 * Math.PI,
+                      color: confettiColors[i % confettiColors.length],
+                    }))
+                  );
+                }}
+              >
+                Explore Programs
+                <svg className="w-5 h-5 ml-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                {/* Confetti burst */}
+                <span className="absolute left-1/2 top-1/2 z-50 pointer-events-none" style={{ transform: 'translate(-50%, -50%)' }}>
+                  {confetti.map((c, i) => (
+                    <span
+                      key={c.id}
+                      className="confetti-particle"
+                      style={{
+                        background: c.color,
+                        '--angle': c.angle + 'rad',
+                        '--distance': '60px',
+                      }}
+                    />
+                  ))}
+                </span>
+              </motion.a>
+              <motion.span
+                className="inline-block bg-green-50 text-green-700 px-5 py-2 rounded-full font-semibold shadow border border-green-200 text-sm tracking-wide mt-2 animate-pulse"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.9 }}
+              >
+                Placement Guaranteed by Leading Companies
+              </motion.span>
+            </div>
+          </div>
+          {/* Right: Custom Illustration */}
+          <div className="w-full md:w-1/2 flex justify-center items-center mb-8 md:mb-0">
+            <div className="relative w-64 md:w-[420px] max-w-full overflow-hidden rounded-2xl">
+              <motion.img
+                src={heroImg}
+                alt="Hero Illustration"
+                className="w-full h-auto object-contain"
+                loading="lazy"
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.1 }}
+              />
+              {/* Shining effect overlay */}
+              <motion.div
+                className="absolute left-0 top-0 w-full h-full pointer-events-none z-20 rounded-2xl"
+                initial={{ x: '-100%' }}
+                animate={{ x: '100%' }}
+                transition={{ repeat: Infinity, duration: 2.8, ease: 'linear' }}
+                style={{
+                  background: 'linear-gradient(120deg, transparent 60%, rgba(255,255,255,0.35) 80%, transparent 100%)',
+                  mixBlendMode: 'lighten',
+                }}
+              />
             </div>
           </div>
         </div>
-        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-
-        {/* Left Side - Logo Reveal and Goa Highlight */}
-        <div className="w-full md:w-1/2 p-8 md:p-16 flex items-center relative z-10 justify-center">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-xl w-full flex flex-col items-center text-center"
-          >
-            <motion.img
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              src="/src/assets/logo/logo_reveal.gif"
-              alt="Ivanios Logo Reveal"
-              className="mx-auto rounded-xl object-contain mb-6"
-              // style={{ maxWidth: '220px' }}
-            />
-            <span className="inline-block px-4 py-2 bg-yellow-100 text-yellow-800 rounded-full text-base font-semibold mb-4 shadow">
-              Experience Logistics in Goa
-            </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-gray-900 leading-tight">
-              Your Gateway to a Global Logistics Career
-            </h1>
-            <p className="text-lg text-gray-600 mb-8 leading-relaxed max-w-md">
-              Study, train, and launch your future in India's most vibrant destination. World-class faculty, real industry exposure, and a campus like no other.
-            </p>
-            <a
-              href="#courses"
-              className="border-2 border-blue-600 text-blue-600 bg-white hover:bg-blue-50 hover:text-blue-700 px-8 py-4 rounded-lg font-semibold text-lg flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-xl mb-4"
-            >
-              Start Your Journey
-            </a>
-            <span className="inline-block bg-green-100 text-green-700 px-5 py-2 rounded-full font-bold shadow border border-green-200 text-sm tracking-wide">
-              {`Admissions Open ${new Date().getFullYear()}`}
-            </span>
-          </motion.div>
-        </div>
-
-        {/* Right Side - Empty, just background image */}
-        <div className="hidden md:block w-1/2"></div>
+        {/* Animations for gradient, fade-in, and bubbles */}
+        <style>{`
+          @keyframes gradient-x {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+          }
+          .animate-gradient-x {
+            background-size: 200% 200%;
+            animation: gradient-x 4s ease-in-out infinite;
+          }
+          @keyframes fade-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          .animate-fade-in {
+            animation: fade-in 1.2s ease-out;
+          }
+          .bubble {
+            position: absolute;
+            border-radius: 9999px;
+            filter: blur(3px);
+            animation: float-bubble 10s ease-in-out infinite alternate, drift-bubble 16s linear infinite alternate, pulse-bubble 6s ease-in-out infinite;
+          }
+          .bubble:nth-child(2) { animation-delay: 1.5s, 0.5s, 2s; }
+          .bubble:nth-child(3) { animation-delay: 3s, 1.2s, 3.5s; }
+          .bubble:nth-child(4) { animation-delay: 4.5s, 2.2s, 1s; }
+          .bubble:nth-child(5) { animation-delay: 6s, 3.1s, 4s; }
+          .bubble:nth-child(6) { animation-delay: 2.5s, 1.7s, 2.8s; }
+          .bubble:nth-child(7) { animation-delay: 5.5s, 2.7s, 3.2s; }
+          .bubble:nth-child(8) { animation-delay: 7s, 4.2s, 1.7s; }
+          @keyframes float-bubble {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.08); }
+            100% { transform: translateY(0) scale(1); }
+          }
+          @keyframes drift-bubble {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(30px); }
+          }
+          @keyframes pulse-bubble {
+            0%, 100% { opacity: 0.18; }
+            50% { opacity: 0.32; }
+          }
+          .floating-icon {
+            opacity: 0.7;
+            filter: blur(0.5px);
+            animation: float-icon 8s ease-in-out infinite alternate, drift-icon 14s linear infinite alternate;
+            will-change: transform, opacity;
+          }
+          .floating-icon:nth-child(1) { animation-delay: 0.5s, 0.2s; }
+          .floating-icon:nth-child(2) { animation-delay: 2s, 1.1s; }
+          .floating-icon:nth-child(3) { animation-delay: 3.5s, 2.2s; }
+          .floating-icon:nth-child(4) { animation-delay: 1.7s, 1.7s; }
+          @keyframes float-icon {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-18px) scale(1.08) rotate(-6deg); }
+            100% { transform: translateY(0) scale(1); }
+          }
+          @keyframes drift-icon {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(18px); }
+          }
+          .shimmer-glow {
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(90deg, #2563eb 0%, #22d3ee 50%, #a78bfa 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 7s linear infinite;
+            filter: drop-shadow(0 0 6px #a5b4fc88);
+          }
+          @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+          }
+        `}</style>
       </section>
-
-      {/* Floating Badge Between Hero and Programs Sections */}
-      <div className="relative z-50 w-full flex justify-center">
-        <span className="inline-block bg-green-100 text-green-700 px-6 py-2 rounded-full font-bold shadow-lg border border-green-200 text-sm tracking-wide animate-pulse -mt-8">
-          100% Placement Guarantee
-        </span>
-      </div>
 
       {/* Programs Section */}
       <section className="relative py-20 bg-gradient-to-br from-gray-50 to-blue-50 overflow-hidden -mt-5">
@@ -240,12 +432,12 @@ function Home() {
             ))}
           </div>
 
-          {/* Top Recruiters Row */}
+          {/* Top Recruiters Row
           <div className="mt-16 flex flex-wrap justify-center items-center gap-6">
             {["/logo/dhl.png","/logo/maersk.png","/logo/amazon.png","/logo/fedex.png","/logo/flipkart.png","/logo/bluedart.png"].map((src, i) => (
               <img key={src} src={src} alt="Recruiter Logo" className="h-10 w-auto grayscale hover:grayscale-0 transition duration-300" />
             ))}
-          </div>
+          </div> */}
         </div>
       </section>
 
