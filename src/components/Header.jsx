@@ -43,7 +43,7 @@ function Header() {
       <div className="content-container py-4">
         <div className="flex justify-between items-center">
           <a href="#home" className="flex items-center space-x-3" onClick={(e) => scrollToSection(e, '#home')}>
-            <img src="/public/images/faaaav.png" alt="Ivanios Logo" className="h-12" />
+            <img src="/images/faaaav.png" alt="Ivanios Logo" className="h-12" />
             {/* <span className="text-2xl font-bold text-blue-600">Ivanios Edutech</span> */}
           </a>
 

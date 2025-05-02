@@ -21,8 +21,8 @@ const contactMethods = [
   {
     label: "WhatsApp",
     icon: <FaWhatsapp className="w-6 h-6" />,
-    value: "+91 80757 24611",
-    href: "https://wa.me/918075724611",
+    value: "+91 96454 64544",
+    href: "https://wa.me/919645464544",
   },
   {
     label: "Instagram",
@@ -38,20 +38,20 @@ const campuses = [
     address:
       "Ivanios College, P.O Junction, Rd Line, Vijay Nagar, Anchal, Kerala 691306",
     phone: ["+91 96454 64544"],
-    email: "admissions@ivanioscollege.ac.in",
+    email: "admissions@ivaniosedutech.com",
   },
   {
     name: "Kozhikode Campus",
     address:
-      "1st Floor, Kannankandy Chambers, Near Areyaadath Palam, Mavoor Rd, Puthiyara, Kozhikode, Kerala 673633",
+      "3rd Floor, Kannankandy Chambers, Near Arayidathu Palam, Mavoor Rd, Puthiyara, Kozhikode, Kerala 673633",
     phone: ["+91 80757 24611", "+91 97465 54060"],
-    email: "admissions@ivanioscollege.ac.in",
+    email: "admissions@ivaniosedutech.com",
   },
   {
     name: "Thiruvananthapuram Campus",
     address: "Ivanios College, Palode, Near BMC Hospital",
     phone: ["+91 73066 07706"],
-    email: "admissions@ivanioscollege.ac.in",
+    email: "admissions@ivaniosedutech.com",
   },
 ];
 
@@ -88,8 +88,10 @@ function CampusInfoCard({ campus, onClose }) {
           <div className="text-gray-700 mb-2">
             <b>Email:</b>{" "}
             <a
-              href={`mailto:${campus.email}`}
+              href={`https://mail.google.com/mail/?view=cm&to=${campus.email}`}
               className="text-blue-600 hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               {campus.email}
             </a>
@@ -211,8 +213,10 @@ function Contact() {
                     <p className="flex items-center gap-2">
                       <span className="font-medium">Email:</span>
                       <a
-                        href={`mailto:${campus.email}`}
-                        className="text-blue-600 hover:underline hover:text-blue-700 transition-colors cursor-pointer z-10"
+                        href={`https://mail.google.com/mail/?view=cm&to=${campus.email}`}
+                        className="text-blue-600 hover:underline "
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
                         {campus.email}
                       </a>
@@ -231,7 +235,7 @@ function Contact() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.5 }}
         className="fixed bottom-6 right-6 z-50 px-5 py-2.5 rounded-full bg-white/90 border border-neutral-200 shadow-lg text-neutral-800 text-sm font-medium backdrop-blur-xl hover:shadow-xl hover:border-neutral-300 transition-all duration-200"
-        onClick={() => window.open("https://wa.me/918075724611", "_blank")}
+        onClick={() => window.open("https://wa.me/919645464544", "_blank")}
       >
         Need Help?
       </motion.button>
